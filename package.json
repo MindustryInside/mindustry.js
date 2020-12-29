@@ -7,6 +7,12 @@
         "url": "https://github.com/summetdev",
         "email": "summet.dev@gmail.com"
     },
+    "scripts": {
+        "build": "yarn install && yarn build:tsc",
+        "build:tsc": "tsc",
+        "run:dev": "yarn build:tsc && node ./dist/server/__tests__/Server.test.js",
+        "eslint": "eslint ."
+    },
     "license": "GPL-3.0-or-later",
     "devDependencies": {
         "@types/node": "^14.14.2",
