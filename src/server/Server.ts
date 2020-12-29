@@ -7,22 +7,20 @@ import { Address } from '../net/Address';
 export class Server implements Endpoint {
     readonly address: Address;
     readonly port: number;
-    private serverData: ServerData;
 
     constructor(address: Address, port: number = Constants.DEFAULT_PORT) {
         this.address = address;
         this.port = port;
     }
 
-    async updateData(): Promise<void> {
+    async updateData(): Promise<ServerData> {
         const socket = new UdpSocket(this.address, this.port);
         const buffer = await socket.send(Constants.DATA_BYTES);
 
-        this.serverData = new ServerView(buffer);
+        return new ServerView(buffer);
     }
 
     async data(): Promise<ServerData> {
-        await this.updateData();
-        return this.serverData;
+        return this.updateData();
     }
 }

@@ -7,7 +7,7 @@ export class UdpSocket implements Endpoint {
     readonly port: number;
     private socket: Socket;
 
-    constructor(address?: Address, port?: number) {
+    constructor(address: Address, port: number) {
         this.socket = createSocket('udp4');
         this.address = address;
         this.port = port;

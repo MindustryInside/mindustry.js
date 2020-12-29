@@ -10,12 +10,14 @@
     "scripts": {
         "build": "yarn install && yarn build:tsc",
         "build:tsc": "tsc",
-        "run:dev": "yarn build:tsc && node ./dist/server/__tests__/Server.test.js",
+        "run:server": "java -server -jar ./assets/Mindustry-Server-120.jar host",
+        "test": "jest",
         "eslint": "eslint ."
     },
     "license": "GPL-3.0-or-later",
     "devDependencies": {
-        "@types/node": "^14.14.2",
+        "@types/jest": "^26.0.19",
+        "@types/node": "^14.14.16",
         "@typescript-eslint/eslint-plugin": "^4.1.1",
         "@typescript-eslint/parser": "^4.0.1",
         "eslint": "^7.16.0",
@@ -23,6 +25,8 @@
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-unicorn": "^22.0.0",
+        "jest": "^26.6.3",
+        "ts-jest": "^26.4.4",
         "typescript": "^4.1.3"
     }
 }
