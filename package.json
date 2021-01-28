@@ -1,12 +1,15 @@
 {
     "name": "mindustry.js",
     "description": "A library that allows you to interact with mindustry servers.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": {
         "name": "Andrew Antsiferov",
         "url": "https://github.com/summetdev",
         "email": "summet.dev@gmail.com"
     },
+    "files": [
+        "dist/**/*"
+    ],
     "scripts": {
         "build": "yarn install && yarn build:tsc",
         "build:tsc": "tsc",
