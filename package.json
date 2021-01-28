@@ -2,6 +2,7 @@
     "name": "mindustry.js",
     "description": "A library that allows you to interact with mindustry servers.",
     "version": "0.0.2",
+    "main": "./dist/index.js",
     "author": {
         "name": "Andrew Antsiferov",
         "url": "https://github.com/summetdev",
