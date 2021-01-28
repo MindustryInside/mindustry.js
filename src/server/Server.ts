@@ -15,7 +15,7 @@ export class Server implements Endpoint {
 
     async updateData(): Promise<ServerData> {
         const socket = new UdpSocket(this.address, this.port);
-        const buffer = await socket.send(Constants.DATA_BYTES);
+        const buffer = await socket.send(Constants.DISCOVER_PACKET);
 
         return new ServerView(buffer);
     }
