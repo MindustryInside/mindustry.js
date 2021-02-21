@@ -13,14 +13,21 @@ export class Server implements Endpoint {
         this.port = port;
     }
 
-    async updateData(): Promise<ServerData> {
-        const socket = new UdpSocket(this.address, this.port);
-        const buffer = await socket.send(Constants.DISCOVER_PACKET);
-
-        return new ServerView(buffer);
+    updateData(): Promise<ServerData> {
+		return new Promise((resolve, reject) => {
+			const socket = new UdpSocket(this.address, this.port);
+		
+			socket.send(Constants.DISCOVER_PACKET)
+				.then((buffer) => {
+					resolve(new ServerView(buffer));
+				})
+				.catch((e) => {
+					reject('Server is offline!');
+				})
+		});
     }
 
-    async data(): Promise<ServerData> {
+    data(): Promise<ServerData> {
         return this.updateData();
     }
 }
