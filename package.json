@@ -1,7 +1,7 @@
 {
     "name": "mindustry.js",
     "description": "A library that allows you to interact with mindustry servers.",
-    "version": "0.0.3",
+    "version": "0.0.5",
     "main": "./dist/index.js",
     "author": {
         "name": "Andrew Antsiferov",
