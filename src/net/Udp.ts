@@ -17,6 +17,7 @@ export class UdpSocket implements Endpoint {
         return new Promise((resolve, reject) => {
 			const timeout = setTimeout(reject, 1000);
 			
+			this.socket.once('error', reject);
             this.socket.once('message', (buffer) => {
 				clearTimeout(timeout);
 				resolve(buffer);
