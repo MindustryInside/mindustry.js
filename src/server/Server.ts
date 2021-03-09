@@ -14,17 +14,17 @@ export class Server implements Endpoint {
     }
 
     updateData(): Promise<ServerData> {
-		return new Promise((resolve, reject) => {
-			const socket = new UdpSocket(this.address, this.port);
-		
-			socket.send(Constants.DISCOVER_PACKET)
-				.then((buffer) => {
-					resolve(new ServerView(buffer));
-				})
-				.catch((e) => {
-					reject('Server is offline!');
-				})
-		});
+        return new Promise((resolve, reject) => {
+            const socket = new UdpSocket(this.address, this.port);
+
+            socket.send(Constants.DISCOVER_PACKET)
+                .then((buffer) => {
+                    resolve(new ServerView(buffer));
+                })
+                .catch(() => {
+                    reject(new Error('Server is offline!'));
+                });
+        });
     }
 
     data(): Promise<ServerData> {

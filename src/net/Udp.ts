@@ -15,14 +15,14 @@ export class UdpSocket implements Endpoint {
 
     send(data: string | Uint8Array): Promise<Buffer> {
         return new Promise((resolve, reject) => {
-			const timeout = setTimeout(reject, 1000);
-			
-			this.socket.once('error', reject);
+            const timeout = setTimeout(reject, 1000);
+
+            this.socket.once('error', reject);
             this.socket.once('message', (buffer) => {
-				clearTimeout(timeout);
-				resolve(buffer);
-			});
-			
+                clearTimeout(timeout);
+                resolve(buffer);
+            });
+
             this.socket.send(data, this.port, this.address);
         });
     }
