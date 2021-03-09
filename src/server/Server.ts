@@ -13,7 +13,7 @@ export class Server implements Endpoint {
         this.port = port;
     }
 
-    updateData(): Promise<ServerData | ServerView> {
+    data(): Promise<ServerData> {
         return new Promise((resolve, reject) => {
             const socket = new UdpSocket(this.address, this.port);
 
@@ -26,9 +26,5 @@ export class Server implements Endpoint {
                     reject(new Error('Server is offline!'));
                 });
         });
-    }
-
-    data(): Promise<ServerData | ServerView> {
-        return this.updateData();
     }
 }

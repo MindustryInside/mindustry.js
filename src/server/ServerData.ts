@@ -21,7 +21,7 @@ export interface ServerData {
     gamemode: Gamemode;
 }
 
-export class ServerView {
+export class ServerView implements ServerData {
     name: string;
     description: string;
     map: string;

@@ -1,6 +1,6 @@
 export class BufferReader {
     private buffer: Buffer;
-    offset = 0;
+    private offset = 0;
 
     constructor(buffer: Buffer) {
         this.buffer = buffer;
