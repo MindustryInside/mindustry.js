@@ -11,6 +11,6 @@ test('should parse buffer', () => {
     buffer[7] = map.length;
     buffer.write(map, 8);
 
-    expect(ServerView.from(buffer)).toHaveProperty('name', name);
-    expect(ServerView.from(buffer)).toHaveProperty('map', map);
+    expect(new ServerView(buffer)).toHaveProperty('name', name);
+    expect(new ServerView(buffer)).toHaveProperty('map', map);
 });
