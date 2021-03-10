@@ -15,7 +15,6 @@
         "build": "yarn install && yarn build:tsc",
         "build:tsc": "tsc",
         "build:publish": "yarn build && yarn publish",
-        "run:server": "java -server -jar ./assets/Mindustry-Server-120.jar host",
         "test": "jest",
         "eslint": "eslint ."
     },
