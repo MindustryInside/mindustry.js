@@ -1,6 +1,6 @@
 import { Constants } from '../Constants';
 import { UdpSocket } from '../net/Udp';
-import { ServerView, ServerData } from './ServerData';
+import { ServerData, ServerView } from './ServerData';
 import { Endpoint } from '../net/Endpoint';
 import { Address } from '../net/Address';
 
@@ -13,18 +13,12 @@ export class Server implements Endpoint {
         this.port = port;
     }
 
-    data(): Promise<ServerData> {
-        return new Promise((resolve, reject) => {
-            const socket = new UdpSocket(this.address, this.port);
+    async data(timeout = 2000): Promise<ServerData> {
+        const socket = new UdpSocket(this.address, this.port);
+        socket.setTimeout(timeout);
 
-            socket.send(Constants.DISCOVER_PACKET)
-                .then((buffer) => {
-                    resolve(new ServerView(buffer));
-                })
-                .catch((e) => {
-                    console.log(e);
-                    reject(new Error('Server is offline!'));
-                });
-        });
+        const buffer = await socket.send(Constants.DISCOVER_PACKET);
+
+        return new ServerView(buffer);
     }
 }
