@@ -17,7 +17,7 @@
         "build:tsc": "tsc",
         "build:publish": "yarn build && yarn publish",
         "test": "jest",
-        "eslint": "eslint ."
+        "eslint": "eslint src"
     },
     "license": "GPL-3.0-or-later",
     "devDependencies": {
