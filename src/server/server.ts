@@ -1,15 +1,15 @@
-import { Constants } from '../Constants';
-import { UdpSocket } from '../net/Udp';
-import { ServerData, ServerView } from './ServerData';
-import { Endpoint } from '../net/Endpoint';
-import { Address } from '../net/Address';
+import { DEFAULT_PORT, DISCOVER_PACKET } from '../constants';
+import { UdpSocket } from '../net/udp';
+import { ServerData, ServerView } from './data';
+import { Endpoint } from '../net/endpoint';
+import { Address } from '../net/address';
 
 export class Server extends Endpoint {
     static servers: Server[] = [];
 
     static getData(
         address: Address,
-        port: number = Constants.DEFAULT_PORT,
+        port: number = DEFAULT_PORT,
         timeout?: number,
     ): Promise<ServerData> {
         let server = this.servers.find((s) => s.equals(Endpoint.with(address, port)));
@@ -25,7 +25,7 @@ export class Server extends Endpoint {
         const socket = new UdpSocket(this.address, this.port);
         socket.setTimeout(timeout);
 
-        const buffer = await socket.send(Constants.DISCOVER_PACKET);
+        const buffer = await socket.send(DISCOVER_PACKET);
 
         return new ServerView(buffer);
     }

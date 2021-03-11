@@ -1,4 +1,4 @@
-import { Endpoint } from './Endpoint';
+import { Endpoint } from './endpoint';
 
 export class HostUnavailableError extends Error {
     constructor(endpoint: Endpoint) {

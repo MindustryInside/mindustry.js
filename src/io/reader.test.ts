@@ -1,4 +1,4 @@
-import { BufferReader } from './BufferReader';
+import { BufferReader } from './reader';
 
 describe('BufferReader', () => {
     it('parses string', () => {

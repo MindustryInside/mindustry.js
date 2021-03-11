@@ -1,9 +1,9 @@
 import { createSocket, Socket } from 'dgram';
 import * as util from 'util';
 import { NOTFOUND } from 'dns';
-import { Endpoint } from './Endpoint';
-import { Address } from './Address';
-import { HostUnavailableError } from './HostUnavailableError';
+import { Endpoint } from './endpoint';
+import { Address } from './address';
+import { HostUnavailableError } from './errors';
 import Timeout = NodeJS.Timeout;
 
 /* eslint-disable no-underscore-dangle */
