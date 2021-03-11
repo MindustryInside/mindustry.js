@@ -1,7 +1,8 @@
 import { BufferReader } from '../io/BufferReader';
-import { Constants } from '../Constants';
 
-export type Gamemode = typeof Constants.Gamemodes[number];
+export const Gamemodes = ['survival', 'sandbox', 'attack', 'pvp', 'editor'];
+
+export type Gamemode = typeof Gamemodes[number];
 
 export type VersionType =
     | 'official'
@@ -40,7 +41,7 @@ export class ServerView implements ServerData {
         this.wave = reader.int();
         this.version = reader.int();
         this.versionType = reader.str() as VersionType;
-        this.gamemode = Constants.Gamemodes[reader.byte()];
+        this.gamemode = Gamemodes[reader.byte()];
         this.playerLimit = reader.int();
         this.description = reader.str();
     }

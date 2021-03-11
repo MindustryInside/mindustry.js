@@ -7,19 +7,15 @@ import { HostUnavailableError } from './HostUnavailableError';
 import Timeout = NodeJS.Timeout;
 
 /* eslint-disable no-underscore-dangle */
-export class UdpSocket implements Endpoint {
-    readonly address: Address;
-    readonly port: number;
-
+export class UdpSocket extends Endpoint {
     private socket: Socket;
 
     private timeout = 2000;
     private timer?: Timeout;
 
     constructor(address: Address, port: number) {
+        super(address, port);
         this.socket = createSocket('udp4');
-        this.address = address;
-        this.port = port;
     }
 
     setTimeout(timeout: number): void {
