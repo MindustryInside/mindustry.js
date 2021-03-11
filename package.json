@@ -3,6 +3,7 @@
     "description": "A library that allows you to interact with mindustry servers.",
     "version": "0.0.6",
     "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "author": {
         "name": "Andrew Antsiferov",
         "url": "https://github.com/summetdev",
