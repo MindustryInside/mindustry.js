@@ -20,6 +20,11 @@
     "rules": {
         "no-console": "off",
         "linebreak-style": "off",
+        "max-classes-per-file": "off",
+        "class-methods-use-this": "off",
+        "no-plusplus": [2,
+            { "allowForLoopAfterthoughts": true }
+        ],
         "no-void": ["error", {
             "allowAsStatement": true
         }],
