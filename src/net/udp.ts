@@ -2,7 +2,7 @@ import { createSocket, Socket } from 'dgram';
 import * as util from 'util';
 import { NOTFOUND } from 'dns';
 import { Host } from './host';
-import { HostUnavailableError } from './errors';
+import { HostUnavailableException } from './exceptions';
 import Timeout = NodeJS.Timeout;
 
 /* eslint-disable no-underscore-dangle */
@@ -11,15 +11,10 @@ export class UdpSocket {
     private socket: Socket;
 
     private timeout = 2000;
-    private timer?: Timeout;
 
     constructor(hostname: string, port: number) {
         this.host = new Host(hostname, port);
         this.socket = createSocket('udp4');
-    }
-
-    bind(host: Host): void {
-        this.host = host;
     }
 
     setTimeout(timeout: number): void {
@@ -36,27 +31,24 @@ export class UdpSocket {
     private _send(data: Buffer, callback: (err: Error | null, buffer?: Buffer) => void): void {
         this.socket.once('error', (err) => {
             callback(
-                err.message.includes(NOTFOUND) ? new HostUnavailableError(this.host) : err,
+                err.message.includes(NOTFOUND) ? new HostUnavailableException(this.host) : err,
                 Buffer.of(),
             );
         });
 
+        const timer = this.runTimeout(callback);
+
         this.socket.once('message', (buffer) => {
-            this.clearTimeout();
+            clearTimeout(timer);
             callback(null, buffer);
         });
 
-        this.runTimeout(callback);
         this.socket.send(data, this.host.port, this.host.hostname);
     }
 
-    private runTimeout(callback: (err: Error) => void): void {
-       this.timer = setTimeout(() => {
-            callback(new HostUnavailableError(this.host));
+    private runTimeout(callback: (err: Error) => void): Timeout {
+       return setTimeout(() => {
+            callback(new HostUnavailableException(this.host));
        }, this.timeout);
-    }
-
-    private clearTimeout(): void {
-        clearTimeout(this.timeout);
     }
 }
