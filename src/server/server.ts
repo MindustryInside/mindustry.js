@@ -1,28 +1,15 @@
 import { DEFAULT_PORT, DISCOVER_PACKET } from '../constants';
 import { UdpSocket } from '../net/udp';
 import { ServerData, ServerView } from './data';
-import { Endpoint } from '../net/endpoint';
-import { Address } from '../net/address';
+import { Host } from '../net/host';
 
-export class Server extends Endpoint {
-    static servers: Server[] = [];
-
-    static getData(
-        address: Address,
-        port: number = DEFAULT_PORT,
-        timeout?: number,
-    ): Promise<ServerData> {
-        let server = this.servers.find((s) => s.equals(Endpoint.with(address, port)));
-        if (!server) {
-            server = new Server(address, port);
-            this.servers.push(server);
-        }
-
-        return server.data(timeout);
+export class Server extends Host {
+    constructor(hostname: string, port = DEFAULT_PORT) {
+        super(hostname, port);
     }
 
     async data(timeout = 2000): Promise<ServerData> {
-        const socket = new UdpSocket(this.address, this.port);
+        const socket = new UdpSocket(this.hostname, this.port);
         socket.setTimeout(timeout);
 
         const buffer = await socket.send(DISCOVER_PACKET);

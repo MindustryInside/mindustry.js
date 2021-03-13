@@ -1,7 +1,7 @@
-import { Endpoint } from './endpoint';
+import { Host } from './host';
 
 export class HostUnavailableError extends Error {
-    constructor(endpoint: Endpoint) {
-        super(`Host ${endpoint.address}:${endpoint.port} is unavailable.`);
+    constructor(host: Host) {
+        super(`Host ${host.hostname}:${host.port} is unavailable.`);
     }
 }
