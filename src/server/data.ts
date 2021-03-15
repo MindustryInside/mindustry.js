@@ -32,7 +32,7 @@ export class ServerView implements ServerData {
     versionType: VersionType;
     gamemode: Gamemode;
 
-    constructor(buffer: Buffer) {
+    private constructor(buffer: Buffer) {
         const reader = new BufferReader(buffer);
 
         this.name = reader.str();
@@ -44,5 +44,9 @@ export class ServerView implements ServerData {
         this.gamemode = Gamemodes[reader.byte()];
         this.playerLimit = reader.int();
         this.description = reader.str();
+    }
+
+    static from(buffer: Buffer): ServerData {
+        return new ServerView(buffer);
     }
 }

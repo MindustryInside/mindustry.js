@@ -28,6 +28,7 @@
         "no-void": ["error", {
             "allowAsStatement": true
         }],
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/lines-between-class-members": ["error", "always", {
             "exceptAfterSingleLine": true
         }],

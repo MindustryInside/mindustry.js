@@ -1,44 +1,40 @@
-import { Socket as Connection } from 'net';
-import { NetException } from './exceptions';
+import { Socket as SocketChannel } from 'net';
+import { Connection } from './connection';
 
-export class TcpConnection {
-    private connection?: Connection;
-    private connected = false;
+export class TcpConnection extends Connection {
+    private socketChannel?: SocketChannel;
 
-    private timeout = 2000;
+    connect(hostname: string, port: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            void this.disconnect();
 
-    constructor() {
-        this.connection = new Connection();
-    }
-
-    setTimeout(timeout: number): void {
-        this.timeout = timeout;
-    }
-
-    connect(hostname: string, port: number, callback?: () => void): void {
-        this.close();
-
-        this.connection = new Connection();
-        this.connection.connect(port, hostname, () => {
-            this.connected = true;
-
-            if (callback) {
-                callback();
-            }
+            this.socketChannel = new SocketChannel();
+            this.socketChannel.on('error', (err) => reject(err));
+            this.socketChannel.on('data', (data: Buffer) => this.onReceive(data));
+            this.socketChannel.connect(port, hostname, () => {
+                this.onConnect();
+                resolve();
+            });
         });
     }
 
-    send(data: Buffer | string): void {
-        if (!this.connected) {
-            throw new NetException('Connection is closed');
-        }
+    send(data: Buffer | string): Promise<void> {
+        return new Promise((resolve) => {
+            this.requireConnected();
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.connection!.write(data);
+            this.socketChannel!.write(data, (err) => {
+                if (err) throw err;
+                resolve();
+            });
+        });
     }
 
-    close(): void {
-        this.connection?.destroy();
-        this.connected = false;
+    disconnect(): Promise<void> {
+        return new Promise((resolve) => {
+            this.socketChannel?.end(() => {
+                this.onDisconnect();
+                resolve();
+            });
+        });
     }
 }
