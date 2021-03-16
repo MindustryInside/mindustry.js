@@ -1,5 +1,6 @@
 import { Socket as SocketChannel } from 'net';
 import { Connection } from './connection';
+import { Packet } from './packets';
 
 export class TcpConnection extends Connection {
     private socketChannel?: SocketChannel;
@@ -18,11 +19,11 @@ export class TcpConnection extends Connection {
         });
     }
 
-    send(data: Buffer | string): Promise<void> {
+    send(packet: Packet): Promise<void> {
         return new Promise((resolve) => {
             this.requireConnected();
 
-            this.socketChannel!.write(data, (err) => {
+            this.socketChannel!.write(packet.getBytes(), (err) => {
                 if (err) throw err;
                 resolve();
             });

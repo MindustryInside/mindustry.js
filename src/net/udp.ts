@@ -1,5 +1,6 @@
 import { createSocket, Socket as DatagramChannel } from 'dgram';
 import { Connection } from './connection';
+import { Packet } from './packets';
 
 export class UdpConnection extends Connection {
     private datagramChannel?: DatagramChannel;
@@ -18,11 +19,11 @@ export class UdpConnection extends Connection {
         });
     }
 
-    send(data: Buffer): Promise<void> {
+    send(packet: Packet): Promise<void> {
         return new Promise((resolve) => {
             this.requireConnected();
 
-            this.datagramChannel!.send(data, () => resolve());
+            this.datagramChannel!.send(packet.getBytes(), () => resolve());
         });
     }
 
@@ -31,14 +32,6 @@ export class UdpConnection extends Connection {
             this.datagramChannel?.close(() => {
                 this.onDisconnect();
                 resolve();
-            });
-        });
-    }
-
-    awaitMessage(): Promise<Buffer> {
-        return new Promise((resolve) => {
-            this.addListener({
-                received: resolve,
             });
         });
     }

@@ -1,4 +1,5 @@
 import { NetException } from './exception';
+import { Packet } from './packets';
 
 export interface NetListener {
     connected?(): void;
@@ -13,7 +14,7 @@ export abstract class Connection {
 
     abstract connect(hostname: string, port: number): Promise<void>;
     abstract disconnect(): Promise<void>;
-    abstract send(data: Buffer): void;
+    abstract send(packet: Packet): void;
 
     addListener(listener: NetListener): void {
         if (listener === null) {
@@ -25,6 +26,14 @@ export abstract class Connection {
 
     clearListeners(): void {
         this.listeners = [];
+    }
+
+    awaitMessage(): Promise<Buffer> {
+        return new Promise((resolve) => {
+            this.addListener({
+                received: resolve,
+            });
+        });
     }
 
     protected onConnect(): void {
