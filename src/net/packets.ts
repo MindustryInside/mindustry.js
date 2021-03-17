@@ -1,10 +1,12 @@
 export abstract class Packet {
     abstract getBytes(): Buffer;
 
-    static from(buffer: Buffer): Packet {
+    static from(buffer: Buffer): Packet;
+    static from(str: string): Packet;
+    static from(data: Buffer | string): Packet {
         return new class extends Packet {
             getBytes(): Buffer {
-                return buffer;
+                return data instanceof Buffer ? data : Buffer.from(data);
             }
         }();
     }

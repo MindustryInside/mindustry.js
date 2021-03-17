@@ -6,13 +6,13 @@ export enum SendMode {
     tcp, udp
 }
 
-export abstract class NetConnection {
-    protected constructor(
+export class NetConnection {
+    constructor(
         private tcp: TcpConnection = new TcpConnection(),
         private udp: UdpConnection = new UdpConnection(),
     ) {}
 
-    protected async connect(hostname: string, port: number, mode: SendMode): Promise<void> {
+    async connect(hostname: string, port: number, mode: SendMode): Promise<void> {
         if (mode === SendMode.tcp) {
             await this.tcp.connect(hostname, port);
         }
@@ -20,7 +20,7 @@ export abstract class NetConnection {
         await this.udp.connect(hostname, port);
     }
 
-    protected async disconnect(mode: SendMode): Promise<void> {
+    async disconnect(mode: SendMode): Promise<void> {
         if (mode === SendMode.tcp) {
             await this.tcp.disconnect();
         }
@@ -28,7 +28,7 @@ export abstract class NetConnection {
         await this.udp.disconnect();
     }
 
-    protected async send(packet: Packet, mode: SendMode): Promise<void> {
+    async send(packet: Packet, mode: SendMode): Promise<void> {
         if (mode === SendMode.tcp) {
             await this.tcp.send(packet);
         }
@@ -36,7 +36,7 @@ export abstract class NetConnection {
         await this.udp.send(packet);
     }
 
-    protected async awaitMessage(mode: SendMode): Promise<Buffer> {
+    async awaitMessage(mode: SendMode): Promise<Buffer> {
         if (mode === SendMode.tcp) {
             return this.tcp.awaitMessage();
         }

@@ -10,10 +10,10 @@ export class UdpConnection extends Connection {
             void this.disconnect();
 
             this.datagramChannel = createSocket('udp4');
-            this.datagramChannel.on('error', (err) => reject(err));
-            this.datagramChannel.on('message', (buffer: Buffer) => this.onReceive(buffer));
+            this.datagramChannel.on('error', reject);
+            this.datagramChannel.on('message', (data: Buffer) => this.emit('receive', data));
             this.datagramChannel.connect(port, hostname, () => {
-                this.onConnect();
+                this.emit('connect');
                 resolve();
             });
         });
@@ -30,7 +30,7 @@ export class UdpConnection extends Connection {
     disconnect(): Promise<void> {
         return new Promise((resolve) => {
             this.datagramChannel?.close(() => {
-                this.onDisconnect();
+                this.emit('disconnect');
                 resolve();
             });
         });

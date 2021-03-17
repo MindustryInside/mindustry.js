@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { NetException } from './exception';
 import { Packet } from './packets';
 
@@ -7,47 +8,43 @@ export interface NetListener {
     received?(data: Buffer): void;
 }
 
-export abstract class Connection {
-    private listeners: NetListener[] = [];
+export interface Connection {
+    on(event: 'connect', listener: () => void): this;
+    on(event: 'disconnect', listener: () => void): this;
+    on(event: 'receive', listener: (data: Buffer) => void): this;
 
+    once(event: 'connect', listener: () => void): this;
+    once(event: 'disconnect', listener: () => void): this;
+    once(event: 'receive', listener: (data: Buffer) => void): this;
+
+    emit(event: 'connect'): boolean;
+    emit(event: 'disconnect'): boolean;
+    emit(event: 'receive', data: Buffer): boolean;
+}
+
+export abstract class Connection extends EventEmitter {
     connected = false;
 
     abstract connect(hostname: string, port: number): Promise<void>;
     abstract disconnect(): Promise<void>;
     abstract send(packet: Packet): void;
 
-    addListener(listener: NetListener): void {
-        if (listener === null) {
-            throw new TypeError('Listener cannot be null');
-        }
+    constructor() {
+        super();
 
-        this.listeners.push(listener);
-    }
+        this.on('connect', () => {
+            this.connected = true;
+        });
 
-    clearListeners(): void {
-        this.listeners = [];
+        this.on('disconnect', () => {
+            this.connected = false;
+        });
     }
 
     awaitMessage(): Promise<Buffer> {
         return new Promise((resolve) => {
-            this.addListener({
-                received: resolve,
-            });
+            this.once('receive', resolve);
         });
-    }
-
-    protected onConnect(): void {
-        this.connected = true;
-        this.listeners.forEach((l) => l.connected?.());
-    }
-
-    protected onDisconnect(): void {
-        this.connected = false;
-        this.listeners.forEach((l) => l.disconnected?.());
-    }
-
-    protected onReceive(data: Buffer): void {
-        this.listeners.forEach((l) => l.received?.(data));
     }
 
     protected requireConnected(): void {

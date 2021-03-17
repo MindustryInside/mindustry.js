@@ -10,10 +10,10 @@ export class TcpConnection extends Connection {
             void this.disconnect();
 
             this.socketChannel = new SocketChannel();
-            this.socketChannel.on('error', (err) => reject(err));
-            this.socketChannel.on('data', (data: Buffer) => this.onReceive(data));
+            this.socketChannel.on('error', reject);
+            this.socketChannel.on('data', (data: Buffer) => this.emit('receive', data));
             this.socketChannel.connect(port, hostname, () => {
-                this.onConnect();
+                this.emit('connect');
                 resolve();
             });
         });
@@ -33,7 +33,7 @@ export class TcpConnection extends Connection {
     disconnect(): Promise<void> {
         return new Promise((resolve) => {
             this.socketChannel?.end(() => {
-                this.onDisconnect();
+                this.emit('disconnect');
                 resolve();
             });
         });

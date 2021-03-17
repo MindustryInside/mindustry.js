@@ -1,18 +1,25 @@
 import { ServerData, ServerView } from './data';
 import { Host } from '../net/host';
 import { NetConnection, SendMode } from '../net/net';
-import { Packets } from '../net/packets';
+import { Packet, Packets } from '../net/packets';
 
-export class Server extends NetConnection {
-    static readonly port = 6567;
-    static readonly socketPort = 6859;
+export const defaultHost: Host = {
+    hostname: 'localhost',
+    port: 6567,
+};
 
-    private host: Host;
+export const defaultSocketInput: Host = {
+    hostname: 'localhost',
+    port: 6859,
+};
 
-    constructor(hostname: string, port = Server.port) {
-        super();
-        this.host = new Host(hostname, port);
-    }
+export class Server {
+    private con: NetConnection = new NetConnection();
+
+    constructor(
+        private main: Host,
+        private socketInput?: Host,
+    ) {}
 
     /** @deprecated since 0.1.0 */
     data(): Promise<ServerData> {
@@ -21,9 +28,18 @@ export class Server extends NetConnection {
     }
 
     getData(): Promise<ServerData> {
-        return this.connect(this.host.hostname, this.host.port, SendMode.udp)
-            .then(() => this.send(Packets.discoverHost, SendMode.udp))
-            .then(() => this.awaitMessage(SendMode.udp))
+        return this.con.connect(this.main.hostname, this.main.port, SendMode.udp)
+            .then(() => this.con.send(Packets.discoverHost, SendMode.udp))
+            .then(() => this.con.awaitMessage(SendMode.udp))
             .then((data) => ServerView.from(data));
+    }
+
+    handleCommand(command: string): Promise<void> {
+        if (!this.socketInput) {
+            throw new Error('Server\'s socket input data not provided.');
+        }
+
+        return this.con.connect(this.socketInput.hostname, this.socketInput.port, SendMode.tcp)
+            .then(() => this.con.send(Packet.from(`${command}\n`), SendMode.tcp));
     }
 }
