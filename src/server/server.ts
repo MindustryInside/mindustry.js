@@ -16,10 +16,34 @@ export const defaultSocketInput: Host = {
 export class Server {
     private con: NetConnection = new NetConnection();
 
-    constructor(
-        private main: Host,
-        private socketInput?: Host,
-    ) {}
+    private readonly main: Host;
+    private readonly socketInput!: Host;
+
+    constructor();
+    constructor(main: Host);
+    constructor(main: Host, socketInput: Host);
+    constructor(hostname: string, port: number);
+
+    constructor(...args: Host[] | [string, number]) {
+        if (typeof args[0] === 'string' && typeof args[1] === 'number') {
+            const hostname = args[0];
+            const port = args[1];
+
+            this.main = { hostname, port };
+            this.socketInput = defaultSocketInput;
+        } else {
+            if (args[0]) {
+                this.main = args[0] as Host;
+            } else {
+                this.main = defaultHost;
+                this.socketInput = defaultSocketInput;
+            }
+
+            if (args[1]) {
+                this.socketInput = args[1] as Host;
+            }
+        }
+    }
 
     /** @deprecated since 0.1.0 */
     data(): Promise<ServerData> {
@@ -35,10 +59,6 @@ export class Server {
     }
 
     handleCommand(command: string): Promise<void> {
-        if (!this.socketInput) {
-            throw new Error('Server\'s socket input data not provided.');
-        }
-
         return this.con.connect(this.socketInput.hostname, this.socketInput.port, SendMode.tcp)
             .then(() => this.con.send(Packet.from(`${command}\n`), SendMode.tcp));
     }
