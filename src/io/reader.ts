@@ -1,3 +1,5 @@
+import { Bytes } from './bytes';
+
 export class BufferReader {
     private buffer: Buffer;
     private offset = 0;
@@ -11,31 +13,31 @@ export class BufferReader {
         return this.buffer.slice(this.offset - bytes, this.offset);
     }
 
-    byte(): number {
-        return this.read(1).readInt8();
+    readByte(): number {
+        return this.read(Bytes.byte).readInt8();
     }
 
-    short(): number {
-        return this.read(2).readInt16BE();
+    readShort(): number {
+        return this.read(Bytes.short).readInt16BE();
     }
 
-    int(): number {
-        return this.read(4).readIntBE(0, 4);
+    readInt(): number {
+        return this.read(Bytes.int).readIntBE(0, Bytes.int);
     }
 
-    long(): bigint {
-        return this.read(8).readBigInt64BE();
+    readLong(): bigint {
+        return this.read(Bytes.long).readBigInt64BE();
     }
 
-    float(): number {
-        return this.read(4).readFloatBE();
+    readFloat(): number {
+        return this.read(Bytes.float).readFloatBE();
     }
 
-    double(): number {
-        return this.read(8).readDoubleBE();
+    readDouble(): number {
+        return this.read(Bytes.double).readDoubleBE();
     }
 
-    str(): string {
-        return this.read(this.byte()).toString();
+    readString(): string {
+        return this.read(this.readByte()).toString();
     }
 }

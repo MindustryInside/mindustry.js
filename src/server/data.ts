@@ -35,15 +35,15 @@ export class ServerView implements ServerData {
     private constructor(buffer: Buffer) {
         const reader = new BufferReader(buffer);
 
-        this.name = reader.str();
-        this.map = reader.str();
-        this.players = reader.int();
-        this.wave = reader.int();
-        this.version = reader.int();
-        this.versionType = reader.str() as VersionType;
-        this.gamemode = Gamemodes[reader.byte()];
-        this.playerLimit = reader.int();
-        this.description = reader.str();
+        this.name = reader.readString();
+        this.map = reader.readString();
+        this.players = reader.readInt();
+        this.wave = reader.readInt();
+        this.version = reader.readInt();
+        this.versionType = reader.readString() as VersionType;
+        this.gamemode = Gamemodes[reader.readByte()];
+        this.playerLimit = reader.readInt();
+        this.description = reader.readString();
     }
 
     static from(buffer: Buffer): ServerData {
