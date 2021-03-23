@@ -56,7 +56,7 @@ export class MindustryServer {
         return new Promise<ServerData>((resolve) => {
             const socket = createSocket('udp4');
             socket.on('message', (buffer) => {
-                resolve(ServerView.from(buffer));
+                resolve(ServerView.read(buffer));
             });
             socket.send(Buffer.of(-2, 1), this.main.port, this.main.hostname);
         });

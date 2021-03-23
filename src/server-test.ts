@@ -1,5 +1,5 @@
 import { AddressInfo } from 'net';
-import { BufferWriter } from 'io/writer';
+import { ServerView } from 'content/server/data';
 import { Server } from 'net/server';
 import { Connection } from 'net/core/connection';
 import { Packet } from 'net/core/packets';
@@ -29,18 +29,19 @@ async function main(): Promise<void> {
 
     server.setDiscoveryHandler((handler) => {
         const buffer = Buffer.alloc(500);
-        const writer = new BufferWriter(buffer);
 
-        writer.writeString('Server');
-        writer.writeString('Empty');
-        writer.writeInt(228);
-        writer.writeInt(1);
-        writer.writeInt(126);
-        writer.writeString('official');
-        writer.writeByte(1);
-        writer.writeInt(0);
-        writer.writeString('\ue80f hosted on [green]node.js[]');
-        writer.writeString('<3');
+        ServerView.write(buffer, {
+            name: 'Server',
+            description: '\ue80f hosted on [green]node.js[]',
+            map: 'Empty',
+            players: 228,
+            playerLimit: 0,
+            wave: 1337,
+            version: 126,
+            versionType: 'official',
+            gamemode: 'sandbox',
+            modeName: '<3',
+        });
 
         handler(buffer);
     });
