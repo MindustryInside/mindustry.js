@@ -1,1 +1,1 @@
-export * from './server/server';
+export { MindustryServer as Server } from './server/mindustryServer';

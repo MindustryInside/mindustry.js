@@ -38,11 +38,11 @@ export class BufferWriter {
         this.offset += Bytes.double;
     }
 
-    writeString(string: string): void {
-        this.buffer.writeInt8(string.length, this.offset);
+    writeString(string: string, length: number = string.length): void {
+        this.buffer.writeInt8(length, this.offset);
         this.offset += Bytes.byte;
 
         this.buffer.write(string, this.offset);
-        this.offset += string.length;
+        this.offset += length;
     }
 }
