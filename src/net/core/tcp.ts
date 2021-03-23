@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
 import { AddressInfo, Socket as SocketChannel } from 'net';
-import { Packet } from './packets';
-import { NetException } from './exception';
-import { Serializer } from './serializer';
-import { BufferReader } from '../../io/reader';
-import { BufferWriter } from '../../io/writer';
-import { Agent } from './agent';
+import { BufferReader } from 'io/reader';
+import { BufferWriter } from 'io/writer';
+import { Agent } from 'net/core/agent';
+import { NetException } from 'net/core/exception';
+import { Packet } from 'net/core/packets';
+import { Serializer } from 'net/core/serializer';
 
 export class TcpConnection extends EventEmitter implements Agent {
     private socketChannel?: SocketChannel;
@@ -53,7 +53,7 @@ export class TcpConnection extends EventEmitter implements Agent {
     close(): Promise<void> {
         return new Promise((resolve) => {
             if (!this.socketChannel) {
-                resolve()
+                resolve();
             }
 
             this.socketChannel!.end(() => {
@@ -66,10 +66,14 @@ export class TcpConnection extends EventEmitter implements Agent {
     }
 
     remoteAddress(): AddressInfo | undefined {
-        return {
-            address: this.socketChannel?.remoteAddress!,
-            port: this.socketChannel?.remotePort!,
-            family: this.socketChannel?.remoteFamily!
-        };
+        if (this.socketChannel) {
+            return {
+                address: this.socketChannel.remoteAddress!,
+                port: this.socketChannel.remotePort!,
+                family: this.socketChannel.remoteFamily!,
+            };
+        }
+
+        return undefined;
     }
 }

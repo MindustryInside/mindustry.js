@@ -1,6 +1,6 @@
-import { InternalPacket, Packet } from './packets';
-import { BufferWriter } from '../../io/writer';
-import { BufferReader } from '../../io/reader';
+import { BufferReader } from 'io/reader';
+import { BufferWriter } from 'io/writer';
+import { InternalPacket, Packet } from 'net/core/packets';
 
 export class Serializer {
     static write(buffer: BufferWriter, packet: Packet): void {
@@ -22,6 +22,6 @@ export class Serializer {
 
         return new class extends Packet {
             packetID = id;
-        };
+        }();
     }
 }

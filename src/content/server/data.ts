@@ -1,4 +1,4 @@
-import { BufferReader } from '../io/reader';
+import { BufferReader } from 'io/reader';
 
 export const Gamemodes = ['survival', 'sandbox', 'attack', 'pvp', 'editor'];
 

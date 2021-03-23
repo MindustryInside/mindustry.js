@@ -1,12 +1,11 @@
-import { Server as ServerSocketChannel, Socket as SocketChannel } from 'net';
-import { UdpConnection } from './core/udp';
-import { Connection, EndPoint, NetListener } from './core/connection';
-import { DiscoverHost, Packet, RegisterTCP, RegisterUDP } from './core/packets';
-import { BufferWriter } from '../io/writer';
-import { TcpConnection } from './core/tcp';
-import { BufferReader } from '../io/reader';
-import { Serializer } from './core/serializer';
 import { RemoteInfo } from 'dgram';
+import { Server as ServerSocketChannel, Socket as SocketChannel } from 'net';
+import { BufferReader } from 'io/reader';
+import { Connection, EndPoint, NetListener } from 'net/core/connection';
+import { DiscoverHost, Packet, RegisterTCP, RegisterUDP } from 'net/core/packets';
+import { Serializer } from 'net/core/serializer';
+import { TcpConnection } from 'net/core/tcp';
+import { UdpConnection } from 'net/core/udp';
 
 export interface DiscoveryHandler {
     (handler: (buffer: Buffer) => void): void;
@@ -50,7 +49,7 @@ export class Server implements EndPoint {
             await new Promise<void>((resolve, reject) => {
                 this.serverSocketChannel = new ServerSocketChannel();
                 this.serverSocketChannel.on('error', reject);
-                this.serverSocketChannel.on('connection', (socketChannel) => this.acceptConnection(socketChannel));
+                this.serverSocketChannel.on('connection', (con) => this.acceptConnection(con));
                 this.serverSocketChannel.listen(tcpPort, resolve);
             });
         }
@@ -62,13 +61,14 @@ export class Server implements EndPoint {
                     const con = this.pendingConnections.get(packet.connectionID);
                     if (con) {
                         this.addConnection(con);
-                        con.sendTCP(new RegisterUDP());
-                        con.onConnect(con);
+                        void con.sendTCP(new RegisterUDP()).then(() => con.onConnect(con));
                     }
                 }
 
                 if (packet instanceof DiscoverHost) {
-                    this.discoveryHandler((buffer: Buffer) => this.udp!.sendBuffer(buffer, remote.port, remote.address));
+                    this.discoveryHandler((buffer: Buffer) => {
+                        void this.udp!.sendBuffer(buffer, remote.port, remote.address);
+                    });
                 }
             });
 
@@ -76,7 +76,7 @@ export class Server implements EndPoint {
         }
     }
 
-    async acceptConnection(socketChannel: SocketChannel): Promise<Connection> {
+    private acceptConnection(socketChannel: SocketChannel): void {
         const connection = new Connection();
         if (this.udp) {
             connection.udp = this.udp;
@@ -97,16 +97,13 @@ export class Server implements EndPoint {
             const packet = Serializer.read(reader);
             connection.onReceive(connection, packet);
         });
-        socketChannel.on('close', () => connection.close());
-        socketChannel.on('error', () => connection.close());
+        socketChannel.on('close', () => void connection.close());
+        socketChannel.on('error', () => void connection.close());
 
         const register = new RegisterTCP();
         register.connectionID = connection.id;
 
-        await connection.sendTCP(register);
-        connection.onConnect(connection);
-
-        return connection;
+        void connection.sendTCP(register).then(() => connection.onConnect(connection));
     }
 
     async sendToTCP(id: number, packet: Packet): Promise<void> {

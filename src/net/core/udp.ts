@@ -1,12 +1,12 @@
-import { EventEmitter } from 'events';
 import { createSocket, Socket as DatagramChannel } from 'dgram';
-import { Packet } from './packets';
-import { NetException } from './exception';
+import { EventEmitter } from 'events';
 import { AddressInfo } from 'net';
-import { BufferReader } from '../../io/reader';
-import { Serializer } from './serializer';
-import { BufferWriter } from '../../io/writer';
-import { Agent } from './agent';
+import { BufferReader } from 'io/reader';
+import { BufferWriter } from 'io/writer';
+import { Agent } from 'net/core/agent';
+import { NetException } from 'net/core/exception';
+import { Packet } from 'net/core/packets';
+import { Serializer } from 'net/core/serializer';
 
 export class UdpConnection extends EventEmitter implements Agent {
     private datagramChannel?: DatagramChannel;
@@ -83,7 +83,7 @@ export class UdpConnection extends EventEmitter implements Agent {
     close(): Promise<void> {
         return new Promise((resolve) => {
             if (!this.datagramChannel) {
-                resolve()
+                resolve();
             }
 
             this.datagramChannel!.close(() => {

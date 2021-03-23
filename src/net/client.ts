@@ -1,7 +1,3 @@
-import { TcpConnection } from './core/tcp';
-import { UdpConnection } from './core/udp';
-import { Connection, EndPoint } from './core/connection';
-
 // TODO
 // export class Client extends Connection implements EndPoint {
 //     async connect(hostname: string, tcpPort: number, udpPort: number): Promise<void> {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { NetException } from './exception';
-import { BufferWriter } from '../../io/writer';
-import { BufferReader } from '../../io/reader';
+import { BufferReader } from 'io/reader';
+import { BufferWriter } from 'io/writer';
+import { NetException } from 'net/core/exception';
 
 export abstract class Packet {
     protected abstract packetID: number;
@@ -14,34 +14,31 @@ export abstract class Packet {
 
 export abstract class InternalPacket extends Packet {
     static readInternal(buffer: BufferReader): InternalPacket {
-        // switch (packetID) {
-        //     case 0: return new Ping();
-        //     case 1: return new DiscoverHost();
-        //     case 2: return new KeepAlive();
-        //     case 3: return new RegisterUDP();
-        //     case 4: return new RegisterTCP();
-        //     default: throw new NetException(`Unknown internal packet id: ${packetID}`);
-        // }
         const packetID = buffer.readByte();
-        if (packetID === 0) {
-            const p = new Ping();
-            p.id = buffer.readInt();
-            p.isReply = buffer.readByte() === 1;
-            return p;
-        } else if (packetID === 1) {
-            return new DiscoverHost();
-        } else if (packetID === 2) {
-            return new KeepAlive();
-        } else if (packetID === 3) {
-            const p = new RegisterUDP();
-            p.connectionID = buffer.readInt();
-            return p;
-        } else if (packetID === 4) {
-            const p = new RegisterTCP();
-            p.connectionID = buffer.readInt();
-            return p;
-        } else {
-            throw new NetException(`Unknown internal packet id: ${packetID}`);
+
+        switch (packetID) {
+            case 0: {
+                const p = new Ping();
+                p.id = buffer.readInt();
+                p.isReply = buffer.readByte() === 1;
+                return p;
+            }
+            case 1:
+                return new DiscoverHost();
+            case 2:
+                return new KeepAlive();
+            case 3: {
+                const p = new RegisterUDP();
+                p.connectionID = buffer.readInt();
+                return p;
+            }
+            case 4: {
+                const p = new RegisterTCP();
+                p.connectionID = buffer.readInt();
+                return p;
+            }
+            default:
+                throw new NetException(`Unknown internal packet id: ${packetID}`);
         }
     }
 

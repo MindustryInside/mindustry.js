@@ -1,4 +1,4 @@
-import { Bytes } from './bytes';
+import { Bytes } from 'io/bytes';
 
 export class BufferReader {
     private buffer: Buffer;

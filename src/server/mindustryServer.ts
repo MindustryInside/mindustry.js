@@ -1,5 +1,5 @@
-import { ServerData, ServerView } from './data';
-import { createSocket, Socket as DatagramSocket } from 'dgram';
+import { createSocket } from 'dgram';
+import { ServerData, ServerView } from 'content/server/data';
 
 export interface NetAddress {
     hostname: string;
@@ -54,7 +54,7 @@ export class MindustryServer {
 
     getData(): Promise<ServerData> {
         return new Promise<ServerData>((resolve) => {
-            const socket: DatagramSocket = createSocket('udp4');
+            const socket = createSocket('udp4');
             socket.on('message', (buffer) => {
                 resolve(ServerView.from(buffer));
             });
@@ -64,8 +64,8 @@ export class MindustryServer {
 
     // TODO
     // handleCommand(command: string): Promise<void> {
-    //     // return this.con.connect(this.socketInput.hostname, this.socketInput.port, SendMode.tcp)
-    //     //     .then(() => this.con.send(Packet.from(`${command}\n`), SendMode.tcp));
+    //     return this.con.connect(this.socketInput.hostname, this.socketInput.port, SendMode.tcp)
+    //         .then(() => this.con.send(Packet.from(`${command}\n`), SendMode.tcp));
     //     return Promise.resolve();
     // }
 }

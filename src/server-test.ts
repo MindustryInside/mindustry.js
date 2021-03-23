@@ -1,8 +1,8 @@
-import { Server } from './net/server';
-import { Connection } from './net/core/connection';
-import { Packet } from './net/core/packets';
 import { AddressInfo } from 'net';
-import { BufferWriter } from './io/writer';
+import { BufferWriter } from 'io/writer';
+import { Server } from 'net/server';
+import { Connection } from 'net/core/connection';
+import { Packet } from 'net/core/packets';
 
 const log = (msg: string, ...args: any[]) => console.log(`[${new Date().toLocaleString()}] ${msg}`, ...args);
 

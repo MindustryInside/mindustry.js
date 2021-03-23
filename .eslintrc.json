@@ -24,9 +24,8 @@
         "class-methods-use-this": "off",
         "no-plusplus": "off",
         "consistent-this": [2, "self"],
-        "no-void": ["error", {
-            "allowAsStatement": true
-        }],
+        "no-void": ["off"],
+        "object-curly-newline": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/lines-between-class-members": ["error", "always", {
             "exceptAfterSingleLine": true
