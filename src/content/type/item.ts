@@ -1,4 +1,4 @@
-import { Content, ContentType } from './type/content';
+import { Content, ContentType } from 'content/type/content';
 
 export class Item extends Content {
     get contentType(): ContentType {

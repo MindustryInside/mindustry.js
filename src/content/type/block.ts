@@ -1,4 +1,4 @@
-import { Content, ContentType } from './type/content';
+import { Content, ContentType } from 'content/type/content';
 
 export class Block extends Content {
     get contentType(): ContentType {
