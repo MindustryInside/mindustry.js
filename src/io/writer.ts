@@ -1,4 +1,4 @@
-import { Bytes } from 'io/bytes';
+import { Bytes } from './bytes';
 
 export class BufferWriter {
     private buffer: Buffer;

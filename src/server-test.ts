@@ -1,5 +1,5 @@
 import { AddressInfo } from 'net';
-import { ServerView } from 'content/server/data';
+import { ServerView } from 'net/server-data';
 import { Server } from 'net/server';
 import { Connection } from 'net/core/connection';
 import { Packet } from 'net/core/packets';

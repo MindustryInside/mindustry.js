@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
 import { AddressInfo, Socket as SocketChannel } from 'net';
-import { BufferReader } from 'io/reader';
-import { BufferWriter } from 'io/writer';
-import { Agent } from 'net/core/agent';
-import { NetException } from 'net/core/exception';
-import { Packet } from 'net/core/packets';
-import { Serializer } from 'net/core/serializer';
+import { BufferReader } from '../../io/reader';
+import { BufferWriter } from '../../io/writer';
+import { Agent } from './agent';
+import { NetException } from './exception';
+import { Packet } from './packets';
+import { Serializer } from './serializer';
 
 export class TcpConnection extends EventEmitter implements Agent {
     private socketChannel?: SocketChannel;

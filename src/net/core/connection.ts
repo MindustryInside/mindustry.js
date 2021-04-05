@@ -1,8 +1,8 @@
 import { AddressInfo } from 'net';
-import { NetException } from 'net/core/exception';
-import { Packet, Ping } from 'net/core/packets';
-import { TcpConnection } from 'net/core/tcp';
-import { UdpConnection } from 'net/core/udp';
+import { NetException } from './exception';
+import { Packet, Ping } from './packets';
+import { TcpConnection } from './tcp';
+import { UdpConnection } from './udp';
 
 export interface NetListener {
     connected?(con: Connection): void

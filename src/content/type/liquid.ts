@@ -1,4 +1,4 @@
-import { Content, ContentType } from 'content/type/content';
+import { Content, ContentType } from '../content';
 
 export class Liquid extends Content {
     get contentType(): ContentType {

@@ -1,4 +1,4 @@
-import { Bytes } from 'io/bytes';
+import { Bytes } from './bytes';
 
 export class BufferReader {
     private buffer: Buffer;
@@ -39,5 +39,9 @@ export class BufferReader {
 
     readString(): string {
         return this.read(this.readByte()).toString();
+    }
+
+    getBuffer(): Buffer {
+        return this.buffer;
     }
 }

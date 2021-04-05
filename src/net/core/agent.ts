@@ -1,4 +1,4 @@
-import { Packet } from 'net/core/packets';
+import { Packet } from './packets';
 
 export interface Agent {
     connect(hostname: string, port: number): Promise<void>

@@ -1,5 +1,5 @@
 import { createSocket } from 'dgram';
-import { ServerData, ServerView } from 'content/server/data';
+import { ServerData, ServerView } from '../net/server-data';
 
 export interface NetAddress {
     hostname: string;

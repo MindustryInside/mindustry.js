@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { BufferReader } from 'io/reader';
-import { BufferWriter } from 'io/writer';
-import { NetException } from 'net/core/exception';
+import { BufferReader } from '../../io/reader';
+import { BufferWriter } from '../../io/writer';
+import { NetException } from './exception';
 
 export abstract class Packet {
     protected abstract packetID: number;

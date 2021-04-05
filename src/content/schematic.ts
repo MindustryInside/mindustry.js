@@ -1,7 +1,8 @@
-import { Block } from 'content/type/block';
-import { Item } from 'content/type/item';
-import { Liquid } from 'content/type/liquid';
-import { Point2 } from 'util/point2';
+import { Block } from './type/block';
+import { Item } from './type/item';
+import { Liquid } from './type/liquid';
+import { Point2 } from '../util/point2';
+import { ItemStack } from './meta/item-stack';
 
 export interface SchematicMeta {
     name: string;
@@ -28,21 +29,35 @@ export class SchematicTile {
 }
 
 export class Schematic {
-    private meta: SchematicMeta;
+    private tags: Map<string, string>;
     private tiles: SchematicTile[];
 
-    constructor(meta: SchematicMeta, tiles: SchematicTile[]) {
-        this.meta = meta;
+    // static from(data: Buffer): Schematic {
+    //     return SchematicIO.read(data);
+    // }
+
+    constructor(tiles: SchematicTile[], tags: Map<string, string>) {
         this.tiles = tiles;
+        this.tags = tags;
     }
 
     get name(): string {
-        return this.meta.name;
+        return this.tags.get('name') || '';
     }
 
     get description(): string {
-        return this.meta.description || '';
+        return this.tags.get('description') || '';
     }
 
-    // TODO
+    requirements(): ItemStack[] {
+        const req: ItemStack[] = [];
+
+        this.tiles.forEach((t) => {
+            t.block.requirements.forEach((b) => {
+                req.push(new ItemStack(b.item, b.amount));
+            });
+        });
+
+        return req;
+    }
 }

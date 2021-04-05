@@ -4,7 +4,6 @@
         "target": "ESNext",
         "module": "commonjs",
         "outDir": "./dist/",
-        "baseUrl": "./src/",
         "strict": true,
         "declaration": true,
         "sourceMap": true

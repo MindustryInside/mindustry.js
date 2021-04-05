@@ -1,11 +1,11 @@
 import { RemoteInfo } from 'dgram';
 import { Server as ServerSocketChannel, Socket as SocketChannel } from 'net';
-import { BufferReader } from 'io/reader';
-import { Connection, EndPoint, NetListener } from 'net/core/connection';
-import { DiscoverHost, Packet, RegisterTCP, RegisterUDP } from 'net/core/packets';
-import { Serializer } from 'net/core/serializer';
-import { TcpConnection } from 'net/core/tcp';
-import { UdpConnection } from 'net/core/udp';
+import { BufferReader } from '../io/reader';
+import { Connection, EndPoint, NetListener } from './core/connection';
+import { DiscoverHost, Packet, RegisterTCP, RegisterUDP } from './core/packets';
+import { Serializer } from './core/serializer';
+import { TcpConnection } from './core/tcp';
+import { UdpConnection } from './core/udp';
 
 export interface DiscoveryHandler {
     (handler: (buffer: Buffer) => void): void;
