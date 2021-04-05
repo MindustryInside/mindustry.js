@@ -16,7 +16,14 @@ export enum ContentType {
     ammo,
 }
 
-export abstract class Content {
+export interface ContentProperties {
+    name?: string,
+    alwaysUnlocked?: boolean,
+}
+
+export abstract class Content implements ContentProperties {
+    alwaysUnlocked = false;
+
     constructor(
         public name: string,
     ) {}
@@ -25,5 +32,10 @@ export abstract class Content {
 
     toString(): string {
         return this.name;
+    }
+
+    init<T extends ContentProperties>(properties: T): this {
+        Object.assign(this, properties);
+        return this;
     }
 }

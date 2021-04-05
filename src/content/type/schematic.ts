@@ -1,8 +1,8 @@
-import { Block } from './type/block';
-import { Item } from './type/item';
-import { Liquid } from './type/liquid';
-import { Point2 } from '../util/point2';
-import { ItemStack } from './meta/item-stack';
+import { Block } from './block';
+import { Item } from './item';
+import { Liquid } from './liquid';
+import { Point2 } from '../../util/point2';
+import { ItemStack } from '../meta/item-stack';
 
 export interface SchematicMeta {
     name: string;

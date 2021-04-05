@@ -1,6 +1,21 @@
-import { Content, ContentType } from '../content';
+import { Content, ContentProperties, ContentType } from '../content';
 
-export class Item extends Content {
+function keys<T>(obj: T): (keyof T)[] {
+    return Object.keys(obj) as (keyof T)[];
+}
+
+export interface ItemProperties extends ContentProperties {
+    color?: string;
+    explosiveness?: number;
+    flammability?: number;
+    radioactivity?: number;
+    charge?: number;
+    hardness?: number;
+    cost?: number;
+    lowPriority?: boolean;
+}
+
+export class Item extends Content implements ItemProperties {
     color: string;
 
     explosiveness = 0;
@@ -11,12 +26,12 @@ export class Item extends Content {
     cost = 1;
     lowPriority!: boolean;
 
-    get contentType(): ContentType {
-        return ContentType.item;
-    }
-
     constructor(name: string, color = '#000000') {
         super(name);
         this.color = color;
+    }
+
+    get contentType(): ContentType {
+        return ContentType.item;
     }
 }
