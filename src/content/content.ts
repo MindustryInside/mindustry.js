@@ -21,21 +21,24 @@ export interface ContentProperties {
     alwaysUnlocked?: boolean,
 }
 
-export abstract class Content implements ContentProperties {
+export abstract class Content
+    <T extends ContentProperties = ContentProperties> implements ContentProperties {
+    name: string;
     alwaysUnlocked = false;
 
-    constructor(
-        public name: string,
-    ) {}
+    constructor(name: string, constructor?: T) {
+        this.name = name;
+        this.init(constructor);
+    }
 
     abstract get contentType(): ContentType;
 
-    toString(): string {
-        return this.name;
-    }
-
-    init<T extends ContentProperties>(properties: T): this {
+    private init(properties?: T): this {
         Object.assign(this, properties);
         return this;
+    }
+
+    toString(): string {
+        return this.name;
     }
 }

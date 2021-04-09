@@ -15,7 +15,7 @@ export interface ItemProperties extends ContentProperties {
     lowPriority?: boolean;
 }
 
-export class Item extends Content implements ItemProperties {
+export class Item extends Content<ItemProperties> implements ItemProperties {
     color: string;
 
     explosiveness = 0;
@@ -26,8 +26,8 @@ export class Item extends Content implements ItemProperties {
     cost = 1;
     lowPriority!: boolean;
 
-    constructor(name: string, color = '#000000') {
-        super(name);
+    constructor(name: string, color = '#000000', constructor?: ItemProperties) {
+        super(name, constructor);
         this.color = color;
     }
 
