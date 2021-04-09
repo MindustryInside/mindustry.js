@@ -1,6 +1,6 @@
 import { Item } from '../../type/item';
 
-export const Items /* TODO :ContentList<Item> */ = {
+export const Items = {
     copper: new Item('copper', '#d99d73', {
         hardness: 1,
         cost: 0.5,
