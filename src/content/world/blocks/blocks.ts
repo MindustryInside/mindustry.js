@@ -1,6 +1,6 @@
-import { ContentList } from '../../content-list';
 import { Block } from '../../type/block';
+import { ContentList } from '../../content-list';
 
-export const Blocks: ContentList<Block> = {
-    // TODO
-};
+class BlocksImpl extends ContentList<Block> {}
+
+export const Blocks = new BlocksImpl();

@@ -1,12 +1,14 @@
-import { Content, ContentType } from '../content';
+import { Content, ContentProperties, ContentType } from '../content';
 import { ItemStack } from '../meta/item-stack';
 
-export class Block extends Content {
+export interface BlockProperties extends ContentProperties {
+    requirements: ItemStack[];
+}
+
+export class Block extends Content<BlockProperties> implements BlockProperties {
+    requirements = [];
+
     get contentType(): ContentType {
         return ContentType.block;
-    }
-
-    get requirements(): ItemStack[] {
-        return undefined as any; // TODO
     }
 }

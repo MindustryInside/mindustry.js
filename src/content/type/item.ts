@@ -1,9 +1,5 @@
 import { Content, ContentProperties, ContentType } from '../content';
 
-function keys<T>(obj: T): (keyof T)[] {
-    return Object.keys(obj) as (keyof T)[];
-}
-
 export interface ItemProperties extends ContentProperties {
     color?: string;
     explosiveness?: number;
