@@ -2,7 +2,7 @@ import { Block } from './block';
 import { Item } from './item';
 import { Liquid } from './liquid';
 import { Point2 } from '../../util/point2';
-import { ItemStack } from '../meta/item-stack';
+import { Stack } from '../meta/stack';
 
 export interface SchematicMeta {
     name: string;
@@ -49,15 +49,7 @@ export class Schematic {
         return this.tags.get('description') || '';
     }
 
-    requirements(): ItemStack[] {
-        const req: ItemStack[] = [];
-
-        this.tiles.forEach((t) => {
-            t.block.requirements.forEach((b) => {
-                req.push(new ItemStack(b.item, b.amount));
-            });
-        });
-
-        return req;
+    requirements(): Stack<Item>[] {
+        return this.tiles.map<Stack<Item>[]>((tile) => tile.block.requirements).flat();
     }
 }

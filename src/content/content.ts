@@ -22,7 +22,7 @@ export interface ContentProperties {
 }
 
 export abstract class Content
-    <T extends ContentProperties = ContentProperties> implements ContentProperties {
+    <T extends ContentProperties> implements ContentProperties {
     name: string;
     alwaysUnlocked = false;
 
