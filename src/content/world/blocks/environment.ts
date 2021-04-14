@@ -1,0 +1,55 @@
+import { ContentList } from '../../content-list';
+import { Block } from '../../type/block/block';
+import { AirBlock } from '../../type/block/environment/air-block';
+import { SpawnBlock } from '../../type/block/environment/spawn-block';
+import { Cliff } from '../../type/block/environment/cliff';
+import { Floor } from '../../type/block/environment/floor';
+import { ShallowLiquid } from '../../type/block/environment/shallow-liquid';
+import { StaticWall } from '../../type/block/environment/static-wall';
+import { TreeBlock } from '../../type/block/environment/tree-block';
+import { Boulder } from '../../type/block/environment/boulder';
+
+export class BlocksEnvironment extends ContentList<Block> {
+    air = new AirBlock('air');
+    spawn = new SpawnBlock('spawn');
+    cliff = new Cliff('cliff');
+    deepwater = new Floor('deepwater');
+    water = new Floor('water');
+    taintedWater = new Floor('taintedWater');
+    darksandTaintedWater = new ShallowLiquid('darksand-tainted-water');
+    sandWater = new ShallowLiquid('sand-water');
+    darksandWater = new ShallowLiquid('darksand-water');
+    tar = new Floor('tar');
+    slag = new Floor('slag');
+    space = new Floor('space');
+    stone = new Floor('stone');
+    craters = new Floor('craters');
+    char = new Floor('char');
+    basalt = new Floor('basalt');
+    hotrock = new Floor('hotrock');
+    magmarock = new Floor('magmarock');
+    sand = new Floor('sand');
+    darksand = new Floor('darksand');
+    dirt = new Floor('dirt');
+    mud = new Floor('mud');
+    dacite = new Floor('dacite');
+    grass = new Floor('grass');
+    salt = new Floor('salt');
+    snow = new Floor('snow');
+    ice = new Floor('ice');
+    iceSnow = new Floor('ice-snow');
+    shale = new Floor('shale');
+    duneWall = new StaticWall('dune-wall');
+    sandWall = new StaticWall('sand-wall');
+    saltWall = new StaticWall('salt-wall');
+    shrubs = new StaticWall('shrubs');
+    shaleWall = new StaticWall('shale-wall');
+    sporePine = new StaticWall('spore-pine');
+    snowPine = new StaticWall('snow-pine');
+    pine = new StaticWall('pine');
+    whiteTreeDead = new TreeBlock('white-tree-dead');
+    whiteTree = new TreeBlock('white-tree');
+    sporeCluster = new Boulder('sporec-cluster');
+    boulder = new Boulder('boulder');
+    // TODO
+}

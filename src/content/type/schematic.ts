@@ -1,4 +1,4 @@
-import { Block } from './block';
+import { Block } from './block/block';
 import { Item } from './item';
 import { Liquid } from './liquid';
 import { Point2 } from '../../util/point2';
