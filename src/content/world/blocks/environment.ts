@@ -7,7 +7,9 @@ import { Floor } from '../../type/block/environment/floor';
 import { ShallowLiquid } from '../../type/block/environment/shallow-liquid';
 import { StaticWall } from '../../type/block/environment/static-wall';
 import { TreeBlock } from '../../type/block/environment/tree-block';
-import { Boulder } from '../../type/block/environment/boulder';
+import { Prop } from '../../type/block/environment/prop';
+import { DoubleOverlayFloor } from '../../type/block/environment/double-overlay-floor';
+import { OverlayFloor } from '../../type/block/environment/overlay-floor';
 
 export class BlocksEnvironment extends ContentList<Block> {
     air = new AirBlock('air');
@@ -49,7 +51,29 @@ export class BlocksEnvironment extends ContentList<Block> {
     pine = new StaticWall('pine');
     whiteTreeDead = new TreeBlock('white-tree-dead');
     whiteTree = new TreeBlock('white-tree');
-    sporeCluster = new Boulder('sporec-cluster');
-    boulder = new Boulder('boulder');
-    // TODO
+    sporeCluster = new Prop('sporec-cluster');
+    boulder = new Prop('boulder');
+    snowBoulder = new Prop('snow-boulder');
+    shaleBoulder = new Prop('shale-boulder');
+    sandBoulder = new Prop('shale-boulder');
+    daciteBoulder = new Prop('dacite-boulder');
+    basaltBoulder = new Prop('basalt-boulder');
+    moss = new Floor('moss');
+    sporeMoss = new Floor('spore-moss');
+    metalFloor = new Floor('metal-floor');
+    metalFloorDamaged = new Floor('metal-floor-damaged');
+    metalFloor2 = new Floor('metal-floor-2');
+    metalFloor3 = new Floor('metal-floor-3');
+    metalFloor4 = new Floor('metal-floor-4');
+    metalFloor5 = new Floor('metal-floor-5');
+    darkPanel1 = new Floor('dark-panel-1');
+    darkPanel2 = new Floor('dark-panel-2');
+    darkPanel3 = new Floor('dark-panel-3');
+    darkPanel4 = new Floor('dark-panel-4');
+    darkPanel5 = new Floor('dark-panel-5');
+    darkPanel6 = new Floor('dark-panel-6');
+    darkMetal = new StaticWall('dark-metal');
+    pebbles = new DoubleOverlayFloor('pebbles');
+    tendrils = new OverlayFloor('tendrils');
+    // TODO: Complete everything
 }

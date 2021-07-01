@@ -1,3 +1,3 @@
-import { Boulder } from './boulder';
+import { Prop } from './prop';
 
-export class StaticWall extends Boulder {}
+export class StaticWall extends Prop {}

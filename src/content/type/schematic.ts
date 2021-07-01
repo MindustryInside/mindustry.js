@@ -1,6 +1,6 @@
 import { Block } from './block/block';
 import { Item } from './item';
-import { Liquid } from './liquid';
+// import { Liquid } from './liquid';
 import { Point2 } from '../../util/point2';
 import { Stack } from '../meta/stack';
 
@@ -14,7 +14,7 @@ export type TileConfig =
     | Point2 // used in item bridge, mass driver
     | Point2[] // used in power node
     | Item // used in sorter, item source, unloader
-    | Liquid // used in liquid source
+    // | Liquid // used in liquid source
     | Block // used in block forge
     | number // used in logic block, light block, unit factory
     | string; // used in message block
