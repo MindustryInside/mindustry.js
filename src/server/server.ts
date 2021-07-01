@@ -7,12 +7,12 @@ export interface NetAddress {
     port: number;
 }
 
-export const defaultHost: NetAddress = {
+const defaultHost: NetAddress = {
     hostname: 'localhost',
     port: 6567,
 };
 
-export const defaultSocketInput: NetAddress = {
+const defaultSocketInput: NetAddress = {
     hostname: 'localhost',
     port: 6859,
 };

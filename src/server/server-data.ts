@@ -1,7 +1,7 @@
 import { BufferReader } from '../io/reader';
 import { BufferWriter } from '../io/writer';
 
-export const Gamemodes = ['survival', 'sandbox', 'attack', 'pvp', 'editor'];
+const Gamemodes = ['survival', 'sandbox', 'attack', 'pvp', 'editor'];
 export type Gamemode = typeof Gamemodes[number];
 
 export type VersionType =
