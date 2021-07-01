@@ -1,15 +1,16 @@
 import { ContentList } from '../../content-list';
-import { Block } from '../../type/block/block';
-import { AirBlock } from '../../type/block/environment/air-block';
-import { SpawnBlock } from '../../type/block/environment/spawn-block';
-import { Cliff } from '../../type/block/environment/cliff';
-import { Floor } from '../../type/block/environment/floor';
-import { ShallowLiquid } from '../../type/block/environment/shallow-liquid';
-import { StaticWall } from '../../type/block/environment/static-wall';
-import { TreeBlock } from '../../type/block/environment/tree-block';
-import { Prop } from '../../type/block/environment/prop';
-import { DoubleOverlayFloor } from '../../type/block/environment/double-overlay-floor';
-import { OverlayFloor } from '../../type/block/environment/overlay-floor';
+import { Block } from '../../type/block';
+import { AirBlock } from '../../type/blocks/environment/air-block';
+import { SpawnBlock } from '../../type/blocks/environment/spawn-block';
+import { Cliff } from '../../type/blocks/environment/cliff';
+import { Floor } from '../../type/blocks/environment/floor';
+import { ShallowLiquid } from '../../type/blocks/environment/shallow-liquid';
+import { StaticWall } from '../../type/blocks/environment/static-wall';
+import { TreeBlock } from '../../type/blocks/environment/tree-block';
+import { Prop } from '../../type/blocks/environment/prop';
+import { DoubleOverlayFloor } from '../../type/blocks/environment/double-overlay-floor';
+import { OverlayFloor } from '../../type/blocks/environment/overlay-floor';
+import { StaticTree } from '../../type/blocks/environment/static-tree';
 
 export class BlocksEnvironment extends ContentList<Block> {
     air = new AirBlock('air');
@@ -46,8 +47,8 @@ export class BlocksEnvironment extends ContentList<Block> {
     saltWall = new StaticWall('salt-wall');
     shrubs = new StaticWall('shrubs');
     shaleWall = new StaticWall('shale-wall');
-    sporePine = new StaticWall('spore-pine');
-    snowPine = new StaticWall('snow-pine');
+    sporePine = new StaticTree('spore-pine');
+    snowPine = new StaticTree('snow-pine');
     pine = new StaticWall('pine');
     whiteTreeDead = new TreeBlock('white-tree-dead');
     whiteTree = new TreeBlock('white-tree');
@@ -75,5 +76,4 @@ export class BlocksEnvironment extends ContentList<Block> {
     darkMetal = new StaticWall('dark-metal');
     pebbles = new DoubleOverlayFloor('pebbles');
     tendrils = new OverlayFloor('tendrils');
-    // TODO: Complete everything
 }

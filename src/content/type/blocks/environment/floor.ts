@@ -1,3 +1,3 @@
-import { Block } from '../block';
+import { Block } from '../../block';
 
 export class Floor extends Block {}

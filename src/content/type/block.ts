@@ -1,6 +1,6 @@
-import { Content, ContentProperties, ContentType } from '../../content';
-import { Stack } from '../../meta/stack';
-import { Item } from '../item';
+import { Content, ContentProperties, ContentType } from '../content';
+import { Stack } from '../meta/stack';
+import { Item } from './item';
 
 export interface BlockProperties extends ContentProperties {
     requirements?: Stack<Item>[];

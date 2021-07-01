@@ -33,6 +33,11 @@ class ItemsImpl extends ContentList<Item> {
         hardness: 2,
     });
 
+    titanium = new Item('titanium', '#8da1e3', {
+        hardness: 3,
+        cost: 1,
+    });
+
     thorium = new Item('thorium', '#f9a3c7', {
         explosiveness: 0.2,
         hardness: 0.4,

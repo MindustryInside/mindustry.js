@@ -10,6 +10,19 @@ export class Stack<T extends Content<T>> {
         return new Stack<C>(value, amount);
     }
 
+    static stacks<C extends Content<C>>(
+            value: C, amount: number,
+            ...values: (C | number)[]
+        ): Stack<C>[] {
+        const arr = [Stack.of(value, amount)];
+
+        for (let i = 0; i < values.length; i += 2) {
+            arr.push(Stack.of(values[i] as C, values[i + 1] as number));
+        }
+
+        return arr;
+    }
+
     set(value: T, amount: number): void {
         this.value = value;
         this.amount = amount;
