@@ -3,6 +3,7 @@ import { NetException } from './exception';
 import { Packet, Ping } from './packets';
 import { TcpConnection } from './tcp';
 import { UdpConnection } from './udp';
+import { Agent } from './agent';
 
 export interface NetListener {
     connected?(con: Connection): void
@@ -30,12 +31,30 @@ export class Connection implements EndPoint {
     tcp?: TcpConnection;
     udp?: UdpConnection;
 
+    connectTCP(hostname: string, port: number): Promise<void> {
+        if (!this.tcp) {
+            this.tcp = new TcpConnection();
+            this.handleEvents(this.tcp);
+        }
+
+        return this.tcp.connect(hostname, port);
+    }
+
     sendTCP(packet: Packet): Promise<void> {
         if (!this.tcp) {
             throw new NetException('Connection is closed.');
         }
 
         return this.tcp.send(packet);
+    }
+
+    connectUDP(hostname: string, port: number): Promise<void> {
+        if (!this.udp) {
+            this.udp = new UdpConnection();
+            this.handleEvents(this.udp);
+        }
+
+        return this.udp.connect(hostname, port);
     }
 
     sendUDP(packet: Packet): Promise<void> {
@@ -83,6 +102,12 @@ export class Connection implements EndPoint {
         }
 
         this.listeners.forEach((l) => l.received?.(con, packet));
+    }
+
+    private handleEvents(agent: Agent) {
+        agent.on('connect', () => this.onConnect(this));
+        agent.on('receive', (packet, remote) => this.onReceive(this, packet));
+        agent.on('close', () => this.onDisconnect(this));
     }
 
     getRemoteAddressTCP(): AddressInfo | undefined {

@@ -1,5 +1,6 @@
-import { createSocket } from 'dgram';
-import { ServerData, ServerView } from '../net/server-data';
+import { ServerData, ServerView } from './server-data';
+import { Connection } from '../net/core/connection';
+import { DiscoverHost, Packet } from '../net/core/packets';
 
 export interface NetAddress {
     hostname: string;
@@ -16,7 +17,7 @@ export const defaultSocketInput: NetAddress = {
     port: 6859,
 };
 
-export class MindustryServer {
+export class Server extends Connection {
     private readonly main: NetAddress;
     private readonly socketInput!: NetAddress;
 
@@ -26,6 +27,8 @@ export class MindustryServer {
     constructor(hostname: string, port: number);
 
     constructor(...args: NetAddress[] | [string, number]) {
+        super();
+
         if (typeof args[0] === 'string' && typeof args[1] === 'number') {
             const hostname = args[0];
             const port = args[1];
@@ -53,12 +56,17 @@ export class MindustryServer {
     }
 
     getData(): Promise<ServerData> {
-        return new Promise<ServerData>((resolve) => {
-            const socket = createSocket('udp4');
-            socket.on('message', (buffer) => {
-                resolve(ServerView.read(buffer));
-            });
-            socket.send(Buffer.of(-2, 1), this.main.port, this.main.hostname);
+        return new Promise<ServerData>((resolve, reject) => {
+            this.connectUDP(this.main.hostname, this.main.port)
+                .then(() => {
+                    this.addListener({
+                        received(con: Connection, packet: Packet) {
+                            resolve(ServerView.read(packet.getData()));
+                        },
+                    });
+                })
+                .then(() => void this.sendUDP(new DiscoverHost()))
+                .catch(reject);
         });
     }
 

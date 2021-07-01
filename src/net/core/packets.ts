@@ -6,9 +6,18 @@ import { NetException } from './exception';
 
 export abstract class Packet {
     protected abstract packetID: number;
+    protected data: Buffer;
+
+    constructor(data: Buffer = Buffer.of()) {
+        this.data = data;
+    }
 
     getID(): number {
         return this.packetID;
+    }
+
+    getData(): Buffer {
+        return this.data;
     }
 }
 
@@ -18,22 +27,22 @@ export abstract class InternalPacket extends Packet {
 
         switch (packetID) {
             case 0: {
-                const p = new Ping();
+                const p = new Ping(buffer.getBuffer());
                 p.id = buffer.readInt();
                 p.isReply = buffer.readByte() === 1;
                 return p;
             }
             case 1:
-                return new DiscoverHost();
+                return new DiscoverHost(buffer.getBuffer());
             case 2:
-                return new KeepAlive();
+                return new KeepAlive(buffer.getBuffer());
             case 3: {
-                const p = new RegisterUDP();
+                const p = new RegisterUDP(buffer.getBuffer());
                 p.connectionID = buffer.readInt();
                 return p;
             }
             case 4: {
-                const p = new RegisterTCP();
+                const p = new RegisterTCP(buffer.getBuffer());
                 p.connectionID = buffer.readInt();
                 return p;
             }
@@ -57,25 +66,25 @@ export abstract class InternalPacket extends Packet {
 }
 
 export class Ping extends InternalPacket {
-    packetID = 0;
+    protected packetID = 0;
     id!: number;
     isReply!: boolean;
 }
 
 export class DiscoverHost extends InternalPacket {
-    packetID = 1;
+    protected packetID = 1;
 }
 
 export class KeepAlive extends InternalPacket {
-    packetID = 2;
+    protected packetID = 2;
 }
 
 export class RegisterUDP extends InternalPacket {
-    packetID = 3;
+    protected packetID = 3;
     connectionID!: number;
 }
 
 export class RegisterTCP extends InternalPacket {
-    packetID = 4;
+    protected packetID = 4;
     connectionID!: number;
 }

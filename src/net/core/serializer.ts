@@ -4,7 +4,8 @@ import { InternalPacket, Packet } from './packets';
 
 export class Serializer {
     static write(buffer: BufferWriter, packet: Packet): void {
-        buffer.writeShort(6);
+        // size
+        // buffer.writeShort(6); todo: refactor this
 
         if (packet instanceof InternalPacket) {
             buffer.writeByte(-2);
@@ -20,8 +21,10 @@ export class Serializer {
             return InternalPacket.readInternal(buffer);
         }
 
+        // eslint-disable-next-line new-parens
         return new class extends Packet {
             packetID = id;
-        }();
+            data = buffer.getBuffer();
+        };
     }
 }

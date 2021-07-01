@@ -1,2 +1,2 @@
-export { MindustryServer as Server } from './server/mindustry-server';
-export * from './net/server-data';
+export * from './server/server';
+export { ServerData } from './server/server-data';

@@ -11,7 +11,7 @@ export interface DiscoveryHandler {
     (handler: (buffer: Buffer) => void): void;
 }
 
-export class Server implements EndPoint {
+export class NetServer implements EndPoint {
     protected listeners: NetListener[] = [];
     private connections: Connection[] = [];
     private pendingConnections: Map<number, Connection> = new Map<number, Connection>();
