@@ -1,7 +1,7 @@
 import { Bytes } from './bytes';
 
 export class BufferReader {
-    private buffer: Buffer;
+    private readonly buffer: Buffer;
     private offset = 0;
 
     constructor(buffer: Buffer) {
@@ -11,6 +11,10 @@ export class BufferReader {
     read(bytes: number): Buffer {
         this.offset += bytes;
         return this.buffer.slice(this.offset - bytes, this.offset);
+    }
+
+    readBoolean(): boolean {
+        return this.read(Bytes.boolean).readInt8() !== 0;
     }
 
     readByte(): number {

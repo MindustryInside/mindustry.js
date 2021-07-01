@@ -1,11 +1,16 @@
 import { Bytes } from './bytes';
 
 export class BufferWriter {
-    private buffer: Buffer;
+    private readonly buffer: Buffer;
     private offset = 0;
 
     constructor(buffer: Buffer) {
         this.buffer = buffer;
+    }
+
+    writeBoolean(bool: boolean): void {
+        this.buffer.writeInt8(bool ? 1 : 0, this.offset);
+        this.offset += Bytes.boolean;
     }
 
     writeByte(byte: number): void {
