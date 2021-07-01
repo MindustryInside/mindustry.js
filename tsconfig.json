@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
         "experimentalDecorators": true,
-        "target": "ESNext",
+        "target": "esnext",
         "module": "commonjs",
         "outDir": "./dist/",
         "strict": true,
         "declaration": true,
         "sourceMap": true,
     },
-    "include": ["src/**/*", "examples/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "include": ["./src/**/*.ts", "./examples/**/*.ts"],
+    "exclude": ["./node_modules"]
 }
