@@ -45,4 +45,8 @@ export class BufferWriter {
         this.buffer.write(string, this.offset);
         this.offset += length;
     }
+
+    bytesWritten(): number {
+        return this.offset;
+    }
 }

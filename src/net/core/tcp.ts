@@ -43,7 +43,7 @@ export class TcpConnection extends EventEmitter implements Agent {
             const writeBuffer = Buffer.alloc(8);
             const writer = new BufferWriter(writeBuffer);
             Serializer.write(writer, packet);
-            this.socketChannel.write(writeBuffer, (err) => {
+            this.socketChannel.write(writeBuffer.slice(0, writer.bytesWritten()), (err) => {
                 if (err) throw err;
                 resolve();
             });

@@ -60,7 +60,7 @@ export class UdpConnection extends EventEmitter implements Agent {
             const writeBuffer = Buffer.alloc(8192);
             const writer = new BufferWriter(writeBuffer);
             Serializer.write(writer, packet);
-            this.datagramChannel.send(writeBuffer, (err) => {
+            this.datagramChannel.send(writeBuffer.slice(0, writer.bytesWritten()), (err) => {
                 if (err) throw err;
                 resolve();
             });
